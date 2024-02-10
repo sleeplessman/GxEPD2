@@ -48,10 +48,25 @@
 
 // for handling alternative SPI pins (ESP32, RP2040) see example GxEPD2_Example.ino
 
+#define USE_HSPI_FOR_EPD
+GxEPD2_7C < GxEPD2_730c_GDEY073D46, GxEPD2_730c_GDEY073D46::HEIGHT / 4 > display(GxEPD2_730c_GDEY073D46(/*CS=*/ 33, /*DC=*/ 27, /*RST=*/ 26, /*BUSY=*/ 25)); // GDEY073D46 800x480 7-color, (N-FPC-001 2021.11.26)
+
+#if defined(ESP32) && defined(USE_HSPI_FOR_EPD)
+SPIClass hspi(HSPI);
+#endif
+
 BitmapDisplay bitmaps(display);
 
 void setup()
 {
+#if defined(ESP32) && defined(USE_HSPI_FOR_EPD)
+  hspi.begin(13, 12, 14, 15); // remap hspi for EPD (swap pins)
+  display.epd2.selectSPI(hspi, SPISettings(4000000, MSBFIRST, SPI_MODE0));
+#elif (defined(ARDUINO_ARCH_ESP32) && defined(ARDUINO_LOLIN_S2_MINI))
+  // SPI.begin(sck, miso, mosi, ss); // preset for remapped pins
+  SPI.begin(18, -1, 16, 33); // my LOLIN ESP32 S2 mini connection
+#endif
+
   Serial.begin(115200);
   Serial.println();
   Serial.println("setup");
