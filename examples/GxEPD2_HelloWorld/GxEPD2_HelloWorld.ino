@@ -40,17 +40,32 @@
 // e.g. for Wemos D1 mini:
 //GxEPD2_BW<GxEPD2_154_D67, GxEPD2_154_D67::HEIGHT> display(GxEPD2_154_D67(/*CS=D8*/ SS, /*DC=D3*/ 0, /*RST=D4*/ 2, /*BUSY=D2*/ 4)); // GDEH0154D67
 
+#define USE_HSPI_FOR_EPD
+GxEPD2_7C < GxEPD2_730c_GDEY073D46, GxEPD2_730c_GDEY073D46::HEIGHT / 4 > display(GxEPD2_730c_GDEY073D46(/*CS=*/ 33, /*DC=*/ 27, /*RST=*/ 26, /*BUSY=*/ 25)); // GDEY073D46 800x480 7-color, (N-FPC-001 2021.11.26)
+
 // for handling alternative SPI pins (ESP32, RP2040) see example GxEPD2_Example.ino
+
+#if defined(ESP32) && defined(USE_HSPI_FOR_EPD)
+SPIClass hspi(HSPI);
+#endif
 
 void setup()
 {
+#if defined(ESP32) && defined(USE_HSPI_FOR_EPD)
+  hspi.begin(13, 12, 14, 15); // remap hspi for EPD (swap pins)
+  display.epd2.selectSPI(hspi, SPISettings(4000000, MSBFIRST, SPI_MODE0));
+#elif (defined(ARDUINO_ARCH_ESP32) && defined(ARDUINO_LOLIN_S2_MINI))
+  // SPI.begin(sck, miso, mosi, ss); // preset for remapped pins
+  SPI.begin(18, -1, 16, 33); // my LOLIN ESP32 S2 mini connection
+#endif
+
   //display.init(115200); // default 10ms reset pulse, e.g. for bare panels with DESPI-C02
   display.init(115200, true, 2, false); // USE THIS for Waveshare boards with "clever" reset circuit, 2ms reset pulse
   helloWorld();
   display.hibernate();
 }
 
-const char HelloWorld[] = "Hello World!";
+const char HelloWorld[] = "Hello World! - Basic Template!";
 
 void helloWorld()
 {
