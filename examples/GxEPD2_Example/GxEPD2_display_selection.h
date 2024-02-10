@@ -277,7 +277,7 @@
 // ***** for mapping of Waveshare ESP32 Driver Board *****
 // use Board "ESP32 Dev Module" to build with Arduino IDE
 // uncomment next line to use HSPI for EPD (and e.g VSPI for SD), e.g. with Waveshare ESP32 Driver Board
-//#define USE_HSPI_FOR_EPD
+#define USE_HSPI_FOR_EPD
 // select one, can use full buffer size (full HEIGHT)
 //GxEPD2_BW<GxEPD2_102, GxEPD2_102::HEIGHT> display(GxEPD2_102(/*CS=*/ 15, /*DC=*/ 27, /*RST=*/ 26, /*BUSY=*/ 25)); // GDEW0102T4 80x128, UC8175
 //GxEPD2_BW<GxEPD2_150_BN, GxEPD2_150_BN::HEIGHT> display(GxEPD2_150_BN(/*CS=*/ 15, /*DC=*/ 27, /*RST=*/ 26, /*BUSY=*/ 25)); // DEPG0150BN 200x200, SSD1681, TTGO T5 V2.4.1
@@ -351,7 +351,7 @@
 // 7-color e-paper
 //GxEPD2_3C < GxEPD2_565c, GxEPD2_565c::HEIGHT / 2 > display(GxEPD2_565c(/*CS=*/ 15, /*DC=*/ 27, /*RST=*/ 26, /*BUSY=*/ 25)); // Waveshare 5.65" 7-color (3C graphics)
 //GxEPD2_7C < GxEPD2_565c, GxEPD2_565c::HEIGHT / 2 > display(GxEPD2_565c(/*CS=*/ 15, /*DC=*/ 27, /*RST=*/ 26, /*BUSY=*/ 25)); // Waveshare 5.65" 7-color
-//GxEPD2_7C < GxEPD2_730c_GDEY073D46, GxEPD2_730c_GDEY073D46::HEIGHT / 4 > display(GxEPD2_730c_GDEY073D46(/*CS=*/ 15, /*DC=*/ 27, /*RST=*/ 26, /*BUSY=*/ 25)); // GDEY073D46 800x480 7-color, (N-FPC-001 2021.11.26)
+GxEPD2_7C < GxEPD2_730c_GDEY073D46, GxEPD2_730c_GDEY073D46::HEIGHT / 4 > display(GxEPD2_730c_GDEY073D46(/*CS=*/ 33, /*DC=*/ 27, /*RST=*/ 26, /*BUSY=*/ 25)); // GDEY073D46 800x480 7-color, (N-FPC-001 2021.11.26)
 #endif
 
 // can't use package "STMF1 Boards (STM32Duino.com)" (Roger Clark) anymore with Adafruit_GFX, use "STM32 Boards (selected from submenu)" (STMicroelectronics)
